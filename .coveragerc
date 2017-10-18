@@ -1,0 +1,15 @@
+[paths]
+source = sampleproject/apps
+
+[run]
+branch = True
+source = sampleproject/apps
+omit =
+    *test*
+    *migrations*
+
+[report]
+show_missing = True
+omit =
+    *test*
+    *migrations*
