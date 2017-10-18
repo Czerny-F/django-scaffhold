@@ -11,7 +11,7 @@ SECRET_KEY = '9(*ru&g0i*@3&it)(&&c#5d8--1ne9cg%a!n5hj9+x9ts0wr84'
 DEBUG = True
 # DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', 'dev.groupair.jp']
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -40,7 +40,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
             'read_default_file': os.path.join(
-                os.path.dirname(BASE_DIR), 'ansible/files/staging/my.cnf'),
+                os.path.dirname(os.path.dirname(BASE_DIR)), 'my.cnf'),
             'sql_mode': 'TRADITIONAL',
         },
     }
