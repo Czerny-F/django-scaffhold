@@ -9,10 +9,6 @@ class CategoryModelTests(TestCase):
         category = Category(name="foo")
         self.assertEqual('foo', str(category))
 
-    def test_str2(self):
-        category = Category(name="foo")
-        self.assertEqual('foo', category.str())
-
 
 class SectionModelTests(unittest.TestCase):
 
