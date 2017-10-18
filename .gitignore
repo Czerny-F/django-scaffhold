@@ -99,3 +99,10 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# sqlite for dev
+db.sqlite3
+
+# etc.
+/my.cnf
+sampleproject/settings/local.py
