@@ -1,0 +1,10 @@
+[webservers]
+
+[webservers:vars]
+env = staging
+ansible_ssh_user = lee
+
+[dbservers]
+
+[dbservers:vars]
+

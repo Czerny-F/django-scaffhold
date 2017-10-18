@@ -1,0 +1,46 @@
+---
+- name: include variables
+  include_vars:
+    file: conf.yml
+    name: conf
+
+- name: db client conf
+  become: no
+  template:
+    src: my.cnf.j2
+    dest: "{{ conf[env].home }}/my.cnf"
+
+- name: static directory
+  file:
+    path: "{{ conf[env].static }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    mode: 0755
+
+- name: configure nginx
+  template:
+    src: nginx.conf.j2
+    dest: "{{ conf[env].nginx.path }}/nginx.conf"
+  notify: restart nginx
+
+- name: nginx include dir
+  file:
+    path: "{{ conf[env].nginx.include }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: nginx include file
+  template:
+    src: nginx_django.conf.j2
+    dest: "{{ conf[env].nginx.include }}/django.conf"
+  notify: restart nginx
+
+- name: configure uwsgi
+  become: no
+  template:
+    src: uwsgi.ini.j2
+    dest: "{{ conf[env].home }}/uwsgi.ini"
+    owner: "{{ ansible_user }}"
+    mode: 0644

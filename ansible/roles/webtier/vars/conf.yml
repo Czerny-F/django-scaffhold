@@ -1,0 +1,18 @@
+---
+staging:
+  domain: dev.sampleproject.jp
+  home: "{{ home }}"
+  settings: sampleproject.settings.staging
+  static: /var/www/html/static
+  nginx:
+    path: /etc/nginx
+    include: /etc/nginx/conf.d
+  uwsgi:
+    pidfile: "{{ home }}/sampleproject.pid"
+    processes: 1
+  db:
+    host: localhost
+    name: sampleproject
+    user: lee
+    pass: password
+    charset: utf8

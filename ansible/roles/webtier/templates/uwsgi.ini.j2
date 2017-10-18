@@ -1,0 +1,18 @@
+[uwsgi]
+chdir = {{ conf[env].home }}/django-scaffold
+module = sampleproject.wsgi
+
+home = {{ virtualenv.path }}
+master = true
+pidfile = {{ conf[env].uwsgi.pidfile }}
+processes = {{ conf[env].uwsgi.processes }}
+socket = :8000
+
+env = DJANGO_SETTINGS_MODULE={{ conf[env].settings }}
+vacuum = true
+daemonize = {{ conf[env].home }}/sampleproject.log
+
+[debug]
+ini = :uwsgi
+http = :8000
+master = true

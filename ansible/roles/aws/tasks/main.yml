@@ -1,0 +1,51 @@
+---
+- name: vpc
+  ec2_vpc_net_facts:
+    region: "{{ aws.region }}"
+    filters:
+      "tag:Name": "{{ aws.tag.Name }}"
+  register: vpc_facts
+- debug: var=vpc_facts.vpcs
+
+- name: subnet
+  ec2_vpc_subnet_facts:
+    region: "{{ aws.region }}"
+    filters:
+      vpc_id: "{{ vpc_facts.vpcs[0].id }}"
+      "tag:Name": "{{ aws.tag.Name }}"
+  register: subnet_facts
+- debug: var=subnet_facts.subnets
+
+- name: route table
+  ec2_vpc_route_table_facts:
+    region: "{{ aws.region }}"
+    filters:
+      "tag:Name": "{{ aws.tag.Name }}"
+  register: route_table_facts
+- debug: var=route_table_facts.route_tables
+
+- name: internet gateway
+  ec2_vpc_igw_facts:
+    region: "{{ aws.region }}"
+    filters:
+      "tag:Name": "{{ aws.tag.Name }}"
+  register: igw_facts
+- debug: var=igw_facts.internet_gateways
+
+- name: ec2 security group
+  ec2_group_facts:
+    region: "{{ aws.region }}"
+    filters:
+      vpc_id: "{{ vpc_facts.vpcs[0].id }}"
+      group-name: "{{ aws.tag.Name }}"
+      "tag:Name": "{{ aws.tag.Name }}"
+  register: group_facts
+- debug: var=group_facts.security_groups
+
+- name: ec2 instance
+  ec2_instance_facts:
+    filters:
+      availability_zone: "{{ aws.az }}"
+      "tag:Name": "{{ aws.tag.Name }}"
+  register: instance_facts
+- debug: var=instance_facts.instances

@@ -1,0 +1,15 @@
+---
+- name: install packages
+  yum: name={{ item }} state=latest
+  with_items: "{{ common.packages }}"
+  when: common.packages is defined
+  tags: yum
+
+- name: activate services
+  service:
+    name={{ item.name }}
+    state={{ item.state }}
+    enabled={{ item.enabled }}
+  with_items: "{{ common.services }}"
+  when: common.services is defined
+  tags: service

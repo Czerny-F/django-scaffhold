@@ -1,0 +1,39 @@
+---
+webserver:
+  packages:
+    - nginx
+    - git
+    - python27
+    - python27-pip
+    - python36
+    - python36-devel
+    - mysql57
+    - mysql57-devel
+  services:
+    - {name: 'httpd', state: 'stopped', enabled: 'yes'}
+    - {name: 'nginx', state: 'started', enabled: 'yes'}
+    # - {name: 'mysql', state: 'started', enabled: 'yes'}
+
+python2:
+  pip: pip-2.7
+  packages:
+    - supervisor
+
+python3:
+  pip: pip-3.6
+  packages:
+    - virtualenv
+    - tox
+    - uWSGI
+
+home: /home/lee
+
+file:
+  src: requirements/
+  dest: "{{ home }}/"
+
+virtualenv:
+  path: "{{ home }}/.venv"
+  python: python3.6
+  command: /usr/local/bin/virtualenv
+  requirements: "{{ home }}/requirements-dev.txt"

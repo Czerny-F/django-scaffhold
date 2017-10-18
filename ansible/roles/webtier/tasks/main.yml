@@ -1,0 +1,48 @@
+---
+- name: install packages
+  yum: name={{ item }} state=latest
+  with_items: "{{ webserver.packages }}"
+  when: webserver.packages is defined
+  tags: yum
+
+- name: activate services
+  service:
+    name={{ item.name }}
+    state={{ item.state }}
+    enabled={{ item.enabled }}
+  with_items: "{{ webserver.services }}"
+  when: webserver.services is defined
+  tags: service
+
+- name: python2 packages
+  pip: name={{ item }} state=latest executable={{ python2.pip }}
+  with_items: "{{ python2.packages }}"
+  when:
+    - python2.pip is defined
+    - python2.packages is defined
+  tags: pip
+
+- name: python3 packages
+  pip: name={{ item }} state=latest executable={{ python3.pip }}
+  with_items: "{{ python3.packages }}"
+  when:
+    - python3.pip is defined
+    - python3.packages is defined
+  tags: pip
+
+# - name: copy conf files for env
+#   become: no
+#   copy:
+#     src: "{{ env }}/"
+#     dest: "{{ file.dest }}"
+#   when:
+#     - env is defined
+#     - file.dest is defined
+#   tags: copy
+
+- name: build virtualenv
+  become: no
+  import_tasks: venv.yml
+
+- name: configure
+  import_tasks: conf.yml

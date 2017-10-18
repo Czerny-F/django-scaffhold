@@ -1,0 +1,17 @@
+---
+- name: copy files
+  copy:
+    src: "{{ file.src }}"
+    dest: "{{ file.dest }}"
+  when:
+    - file.src is defined
+    - file.dest is defined
+  tags: copy
+- name: virtualenv
+  pip:
+    requirements: "{{ virtualenv.requirements }}"
+    virtualenv: "{{ virtualenv.path }}"
+    virtualenv_python: "{{ virtualenv.python }}"
+    virtualenv_command: "{{ virtualenv.command }}"
+  when: virtualenv is defined
+  tags: virtualenv
